@@ -1,4 +1,5 @@
 import telebot, wikipedia, re
+# pip install pyTelegramBotAPI
 # Создаем экземпляр бота
 bot = telebot.TeleBot('6781457349:AAGp82R5O6hzgrw8hoavMG4OMLtbbRieD0c')
 # Устанавливаем русский язык в Wikipedia
