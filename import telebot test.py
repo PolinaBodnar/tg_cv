@@ -1,3 +1,4 @@
+# !pip install pytelegrambotapi
 import telebot
 from telebot import types
 # Токен вашего бота
