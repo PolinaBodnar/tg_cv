@@ -1,45 +1,36 @@
-import telebot, wikipedia, re
-# pip install pyTelegramBotAPI
-# Создаем экземпляр бота
-bot = telebot.TeleBot('6781457349:AAGp82R5O6hzgrw8hoavMG4OMLtbbRieD0c')
-# Устанавливаем русский язык в Wikipedia
-wikipedia.set_lang("ru")
-# Чистим текст статьи в Wikipedia и ограничиваем его тысячей символов
-def getwiki(s):
-    try:
-        ny = wikipedia.page(s)
-        # Получаем первую тысячу символов
-        wikitext=ny.content[:1000]
-        # Разделяем по точкам
-        wikimas=wikitext.split('.')
-        # Отбрасываем всЕ после последней точки
-        wikimas = wikimas[:-1]
-        # Создаем пустую переменную для текста
-        wikitext2 = ''
-        # Проходимся по строкам, где нет знаков «равно» (то есть все, кроме заголовков)
-        for x in wikimas:
-            if not('==' in x):
-                    # Если в строке осталось больше трех символов, добавляем ее к нашей переменной и возвращаем утерянные при разделении строк точки на место
-                if(len((x.strip()))>3):
-                   wikitext2=wikitext2+x+'.'
-            else:
-                break
-        # Теперь при помощи регулярных выражений убираем разметку
-        wikitext2=re.sub('\([^()]*\)', '', wikitext2)
-        wikitext2=re.sub('\([^()]*\)', '', wikitext2)
-        wikitext2=re.sub('\{[^\{\}]*\}', '', wikitext2)
-        # Возвращаем текстовую строку
-        return wikitext2
-    # Обрабатываем исключение, которое мог вернуть модуль wikipedia при запросе
-    except Exception as e:
-        return 'На хабре нет информации об этом'
-# Функция, обрабатывающая команду /start
-@bot.message_handler(commands=["start"])
-def start(m, res=False):
-    bot.send_message(m.chat.id, 'Отправьте мне любое слово, и я найду его значение на хабре')
-# Получение сообщений от юзера
-@bot.message_handler(content_types=["text"])
-def handle_text(message):
-    bot.send_message(message.chat.id, getwiki(message.text))
-# Запускаем бота
-bot.polling(none_stop=True, interval=0)
+import telebot
+from telebot import types
+# Токен вашего бота
+bot = telebot.TeleBot(token='6781457349:AAGp82R5O6hzgrw8hoavMG4OMLtbbRieD0c', parse_mode='html')
+recommendations = {
+    'Текст': 'Бот для составления текста: https://t.me/gigachat_bot',
+    'Изображения': 'Бот для генерации изображений: https://t.me/gigachat_bot',
+    'Музыка': 'Бот для создания музыки: https://t.me/gigachat_bot',
+    'Код': 'Бот валидатор кода: https://t.me/gigachat_bot'
+}
+
+# Обработчик команды /start
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я бот, который поможет найти чаты нейросети для редактирования текста, изображений, музыки и кода. Введите /recommend_text, /recommend_images, /recommend_music или /recommend_code для получения ссылок.")
+
+# Обработчики команд с рекомендациями
+@bot.message_handler(commands=['recommend_text'])
+def send_text_recommendation(message):
+    recommendation = recommendations.get('текст', 'К сожалению, нет рекомендаций для редактирования текста в данный момент.')
+    bot.reply_to(message, recommendation)
+
+@bot.message_handler(commands=['recommend_images'])
+def send_images_recommendation(message):
+    recommendation = recommendations.get('изображения', 'К сожалению, нет рекомендаций для работы с изображениями в данный момент.')
+    bot.reply_to(message, recommendation)
+
+@bot.message_handler(commands=['recommend_music'])
+def send_music_recommendation(message):
+    recommendation = recommendations.get('музыка', 'Рекомендация для работы с музыкой.')
+    bot.reply_to(message, recommendation)
+
+@bot.message_handler(commands=['recommend_code'])
+def send_code_recommendation(message):
+    recommendation = recommendations.get('код', 'Рекомендация для работы кодом.')
+    bot.reply_to(message, recommendation)
