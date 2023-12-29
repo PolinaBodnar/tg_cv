@@ -2,7 +2,7 @@
 import telebot
 from telebot import types
 # Токен вашего бота
-bot = telebot.TeleBot(token='6781457349:AAGp82R5O6hzgrw8hoavMG4OMLtbbRieD0c', parse_mode='html')
+bot = telebot.TeleBot(token='здксь токен', parse_mode='html')
 recommendations = {
     'Текст': 'Бот для составления текста: https://t.me/gigachat_bot',
     'Изображения': 'Бот для генерации изображений: https://t.me/gigachat_bot',
