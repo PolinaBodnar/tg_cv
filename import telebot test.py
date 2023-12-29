@@ -17,12 +17,12 @@ def send_welcome(message):
 # Обработчики команд с рекомендациями
 @bot.message_handler(commands=['recommend_text'])
 def send_text_recommendation(message):
-    recommendation = recommendations.get('текст', 'К сожалению, нет рекомендаций для редактирования текста в данный момент.')
+    recommendation = recommendations.get('текст', 'Рекомендация для с текстом.')
     bot.reply_to(message, recommendation)
 
 @bot.message_handler(commands=['recommend_images'])
 def send_images_recommendation(message):
-    recommendation = recommendations.get('изображения', 'К сожалению, нет рекомендаций для работы с изображениями в данный момент.')
+    recommendation = recommendations.get('изображения', 'Рекомендация для работы с изображением.')
     bot.reply_to(message, recommendation)
 
 @bot.message_handler(commands=['recommend_music'])
